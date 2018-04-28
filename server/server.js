@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config');
+const cors = require('cors');
 
 const app = express();
 
@@ -10,6 +11,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
+//used to have seamless connectivity between Server from Clients
+app.use(cors());
 
 /* Database Connectivity */
 mongoose.connect(config.database, (err) => {
