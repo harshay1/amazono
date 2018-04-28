@@ -6,7 +6,6 @@ const User = require('../models/user');
 
 router.post('/signup', (req, res, next) => {
     console.log("Reached Signup Post method");
-
     let user = new User();
     user.name = req.body.firstname;
     user.email = req.body.email;
@@ -39,6 +38,40 @@ router.post('/signup', (req, res, next) => {
                     token: token
                 });
             }
+    });
+});
+
+router.post('/login', (req, res, next) => {
+    console.log("Reached Login Post method");
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if(err) throw err;
+
+        if(!user) {
+            console.log('User Doesnt exists');
+            res.json({
+                success: false,
+                message: 'Authentication Failed! User not found'
+            });
+        } else if (user){
+            var validPassword = user.comparePassword(req.body.password);
+            if(!validPassword) {
+                res.json({
+                    success: false,
+                    message: 'Account Failed, Wrong Password'
+                });
+            }else {
+                var token = jwt.sign({
+                    user: user
+                }, config.secretKey, {
+                    expiresIn: '7d'
+                });
+                res.json({
+                    success: true,
+                    message: 'Login Successful! Enjoy your Token',
+                    token: token
+                });
+            }
+        } 
     });
 });
 
