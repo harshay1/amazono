@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const cors = require('cors');
+const userRoutes = require('./routes/account');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false }));
 //used to have seamless connectivity between Server from Clients
 app.use(cors());
+app.use('/api/accounts', userRoutes);
 
 /* Database Connectivity */
 mongoose.connect(config.database, (err) => {
@@ -30,11 +32,4 @@ app.listen(config.port, function(err) {
         throw err;
     else
         console.log('Magic Happens on port'+ config.port);
-});
-
-/* HTTP method calls*/
-app.get('/', (req, res, next) => {
-    res.json({
-        user: "Harsha Yalavarthy"
-    });
 });
