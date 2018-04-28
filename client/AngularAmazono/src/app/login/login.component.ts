@@ -24,8 +24,7 @@ export class LoginComponent implements OnInit {
 
     if (this.email) {
         if (this.password) {
-
-
+          return true;
         } else {
           this.data.error('Password is Not Entered');
         }
