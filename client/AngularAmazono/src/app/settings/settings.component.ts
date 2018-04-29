@@ -55,7 +55,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  async update(){
+  async update() {
     this.btnDisabled = true;
     try {
       if (this.validate(this.currentSettings)) {
